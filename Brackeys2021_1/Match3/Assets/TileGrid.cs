@@ -1,116 +1,60 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Dynamic;
+using System.Collections;
+using UnityEngine.Events;
+using System.Text.RegularExpressions;
 
 public class TileGrid : MonoBehaviour {
-    public Vector2Int size;
-    public List<Tile> tilePrefabs;
+    public UnityEvent OnScore;
 
-    public float fallSpeed;
+    public bool onlyAllowScoringMoves;
+
+    [SerializeField] private Vector2Int size;
+
+    public float width {
+        get {
+            return size.x;
+        }
+    }
+    public float height {
+        get {
+            return size.y;
+        }
+    }
 
     private List<Tile> _tiles;
 
-    private Tile tileA;
-
-    private bool isAnimating;
+    private (Vector2Int, Vector2Int)? lastSwap;
 
     private void Awake() {
         _tiles = new List<Tile>();
-        isAnimating = false;
     }
 
     private void Start() {
-        Refill();
-        transform.position = new Vector2(-size.x / 2.0f, -size.y / 2.0f);
-        StartCoroutine(DoAnimation());
+        transform.position = -((Vector2)size) / 2.0f;
+        StartCoroutine(WaitForMoveToFinish());
     }
 
-    private void Update() {
-        if (isAnimating) {
-            return;
-        }
-        if (Input.GetMouseButtonUp(0)) {
-            Tile t = GetTileUnderMouse();
-            if (t == null) {
-                tileA = null;
-            } else {
-                if (tileA == null) {
-                    tileA = t;
-                } else if (tileA != t) {
-                    Vector2Int tempPos = tileA.position;
-                    tileA.position = t.position;
-                    t.position = tempPos;
-                    tileA = null;
-                    DoAnimation();
-                }
-            }
-        }
+    public Vector2Int WorldToTile(Vector2 world) {
+        return Vector2Int.FloorToInt(transform.InverseTransformPoint(world));
     }
 
-    private IEnumerator DoAnimation() {
-        if (isAnimating) {
-            yield return null;
-        }
-        isAnimating = true;
-
-        DoPostAnimation();
-        isAnimating = false;
+    public Vector2 TileToWorld(Vector2Int tile) {
+        return transform.TransformPoint((Vector2)tile + Vector2.one * 0.5f);
     }
 
-    private void DoPostAnimation() {
-        bool destroyed = false;
-        foreach (Tile toDestroy in CheckPuzzle()) {
-            DestroyTile(toDestroy);
-        }
+    public void AddTile(Tile t) {
+        t.grid = this;
+        _tiles.Add(t);
     }
 
-    private void DestroyTile(Tile t) {
+    public void RemoveTile(Tile t) {
         _tiles.Remove(t);
-        Destroy(t.gameObject);
     }
 
-    private List<Tile> CheckPuzzle() {
-        List<Tile> tilesToDestroy = new List<Tile>();
-        foreach (Tile baseTile in _tiles) {
-            var left = FindContiguous(baseTile, new Vector2Int(-1, 0));
-            var right = FindContiguous(baseTile, new Vector2Int(1, 0));
-            var up = FindContiguous(baseTile, new Vector2Int(0, 1));
-            var down = FindContiguous(baseTile, new Vector2Int(0, -1));
-            if (left.Count >= 3 || right.Count >= 3 || up.Count >= 3 || down.Count >= 3) {
-                tilesToDestroy = new List<Tile>(tilesToDestroy.Union(left.Union(right.Union(up.Union(down)))));
-            }
-        }
-        return tilesToDestroy;
-    }
-
-    private List<Tile> FindContiguous(Tile t, Vector2Int direction) {
-        List<Tile> contiguous = new List<Tile>();
-        contiguous.Add(t);
-        Tile current = t;
-        while (true) {
-            Tile neighbor = GetTileAtPos(current.position + direction);
-            if (neighbor != null && t.id == neighbor.id) {
-                contiguous.Add(neighbor);
-                current = neighbor;
-            } else {
-                break;
-            }
-        }
-        return contiguous;
-    }
-
-    private Tile GetTileUnderMouse() {
-        foreach (var hit in Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero)) {
-            Tile t = hit.collider.GetComponent<Tile>();
-            if (t != null) {
-                return t;
-            }
-        }
-        return null;
-    }
-
-    private Tile GetTileAtPos(Vector2Int position) {
+    public Tile GetTileAtPosition(Vector2Int position) {
         foreach (Tile t in _tiles) {
             if (t.position == position) {
                 return t;
@@ -119,43 +63,130 @@ public class TileGrid : MonoBehaviour {
         return null;
     }
 
-    private void Refill() {
-        for (int columnIndex = 0; columnIndex < size.x; columnIndex++) {
-            int numberInColumn = GetLowestUnoccupiedPositionBelow(new Vector2Int(columnIndex, size.y));
-            int numberToSpawn = size.y - numberInColumn;
-            for (int i = 0; i < numberToSpawn; i++) {
-                var newTile = DoSpawn();
-                newTile.position = new Vector2Int(columnIndex, size.y + i);
-                newTile.transform.position = (Vector2)newTile.position;
+    public List<Tile> FindMatchedTiles() {
+        List<Tile> matches = new List<Tile>();
+        foreach (Tile tile in _tiles) {
+            var left = FindContiguous(tile, new Vector2Int(-1, 0));
+            var right = FindContiguous(tile, new Vector2Int(1, 0));
+            var up = FindContiguous(tile, new Vector2Int(0, 1));
+            var down = FindContiguous(tile, new Vector2Int(0, -1));
+            if (left.Count >= 3) {
+                matches = new List<Tile>(matches.Union(left));
+            }
+            if (right.Count >= 3) {
+                matches = new List<Tile>(matches.Union(right));
+            }
+            if (up.Count >= 3) {
+                matches = new List<Tile>(matches.Union(up));
+            }
+            if (down.Count >= 3) {
+                matches = new List<Tile>(matches.Union(down));
             }
         }
-        SlideDown();
+        return matches;
     }
 
-    private void SlideDown() {
-        for (int columnIndex = 0; columnIndex < size.x; columnIndex++) {
-            for (int rowIndex = 0; rowIndex < size.y * 2; rowIndex++) {
-                Tile t = GetTileAtPos(new Vector2Int(columnIndex, rowIndex));
+    public bool IsInBounds(Vector2Int pos) {
+        return pos.x >= 0 && pos.y >= 0 && pos.x < width && pos.y < height;
+    }
+
+    public bool AtRest() {
+        return _tiles.All(delegate (Tile t) { return t.atRest; });
+    }
+
+    public List<Tile> FindContiguous(Tile startTile, Vector2Int direction) {
+        List<Tile> contiguous = new List<Tile>();
+
+        Vector2Int currentPosition = startTile.position;
+        while (IsInBounds(currentPosition)) {
+            Tile neighbor = GetTileAtPosition(currentPosition);
+            if (neighbor != null && neighbor.type == startTile.type) {
+                contiguous.Add(neighbor);
+            } else {
+                break;
+            }
+            currentPosition += direction;
+        }
+        return contiguous;
+    }
+
+    public bool CanSwap(Vector2Int a, Vector2Int b) {
+        if(!AtRest()) {
+            return false;
+        }
+        if(GetTileAtPosition(a) == null || GetTileAtPosition(b) == null) {
+            return false;
+        }
+        return Vector2Int.Distance(a, b) == 1;
+    }
+
+    public void SwapTiles(Vector2Int a, Vector2Int b) {
+        var tileA = GetTileAtPosition(a);
+        var tileB = GetTileAtPosition(b);
+        tileA.position = b;
+        tileB.position = a;
+        lastSwap = (a, b);
+        StartCoroutine(WaitForMoveToFinish());
+    }
+
+    private IEnumerator WaitForMoveToFinish() {
+        while(!AtRest()) {
+            yield return null;
+        }
+        ProcessMove();
+    }
+
+    private void ProcessMove() {
+        var matches = FindMatchedTiles();
+        if(matches.Count > 0) {
+            lastSwap = null;
+            foreach(var match in matches) {
+                match.OnScore.Invoke();
+                RemoveTile(match);
+            }
+            SlideDown();
+            OnScore.Invoke();
+            StartCoroutine(WaitForMoveToFinish());
+        } else {
+            if (onlyAllowScoringMoves && lastSwap.HasValue) {
+                UndoSwap();
+            }
+        }
+    }
+
+    public void UndoSwap() {
+        var tileA = GetTileAtPosition(lastSwap.Value.Item1);
+        var tileB = GetTileAtPosition(lastSwap.Value.Item2);
+        tileA.position = lastSwap.Value.Item2;
+        tileB.position = lastSwap.Value.Item1;
+    }
+
+    public List<Vector2Int> GetEmptySpots() {
+        List<Vector2Int> emptySpots = new List<Vector2Int>();
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (GetTileAtPosition(new Vector2Int(x, y)) == null) {
+                    emptySpots.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+        return emptySpots;
+    }
+
+    public void SlideDown() {
+        for (int x = 0; x < width; x++) { 
+            for(int y = 0; y < height; y++) { 
+                Tile t = GetTileAtPosition(new Vector2Int(x, y));
                 if (t != null) {
-                    t.position.y = GetLowestUnoccupiedPositionBelow(t.position);
+                    SlideDown(t);
                 }
             }
         }
     }
 
-    private int GetLowestUnoccupiedPositionBelow(Vector2Int position) {
-        for (int rowIndex = 0; rowIndex < position.y; rowIndex++) {
-            if (GetTileAtPos(new Vector2Int(position.x, rowIndex)) == null) {
-                return rowIndex;
-            }
+    private void SlideDown(Tile t) {
+        while (IsInBounds(t.position + Vector2Int.down) && GetTileAtPosition(t.position + Vector2Int.down) == null) {
+            t.position += Vector2Int.down;
         }
-        return position.y;
-    }
-
-    private Tile DoSpawn() {
-        Tile prefab = tilePrefabs[Random.Range(0, tilePrefabs.Count)];
-        Tile newTile = Instantiate(prefab.gameObject, transform).GetComponent<Tile>();
-        _tiles.Add(newTile);
-        return newTile;
     }
 }

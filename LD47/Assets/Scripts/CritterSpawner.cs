@@ -5,43 +5,45 @@ using UnityEngine;
 
 public class CritterSpawner : MonoBehaviour
 {
-    public CritterAIController prefab;
+    public BoxCollider2D goodPrefab;
+    public BoxCollider2D badPrefab;
 
-    public Collider2D boundaryCollider;
+    public Vector2 size;
 
-    public int initial;
-    public float probabilityPerSecond;
+    public int numGood;
+    public int numBad;
+    public int cyclesToGiveUp;
 
     private void Start() {
-        for(int i = 0; i < initial; i++) {
-            Spawn();
+        for(int i = 0; i < numGood; i++) {
+            Spawn(goodPrefab);
         }
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (Random.Range(0.0f, 1.0f) < probabilityPerSecond*Time.fixedDeltaTime) {
-            Spawn();
+        for(int i = 0; i < numBad; i++) {
+            Spawn(badPrefab);
         }
     }
 
     private Vector2 GetRandomPoint() {
-        Bounds b = boundaryCollider.bounds;
-        if (b.size == Vector3.zero) {
-            return b.center;
-        }
-
-        Vector2 p = new Vector2(Random.Range(b.min.x, b.max.x),
-            Random.Range(b.min.y, b.max.y));
-        while(!boundaryCollider.OverlapPoint(p)) {
-            p = new Vector2(Random.Range(b.min.x, b.max.x),
-            Random.Range(b.min.y, b.max.y));
-        }
-        return p;
+        Vector2 p = new Vector2(Random.Range(-size.x/2, size.x/2),
+            Random.Range(-size.y/2, size.y/2));
+        return transform.TransformPoint(p);
     }
 
-    public void Spawn() {
-        Instantiate(prefab.gameObject).transform.position = GetRandomPoint();
+    public void Spawn(BoxCollider2D collider) {
+        Bounds b = new Bounds(Vector2.zero, collider.size);
+        for (int i = 0; i < cyclesToGiveUp; i++) {
+            Vector2 randomPoint = GetRandomPoint();
+            b.center = randomPoint;
+            var atArea = Physics2D.OverlapArea(b.min, b.max);
+            if (atArea == null) {
+                Instantiate(collider.gameObject).transform.position = randomPoint;
+                return;
+            }
+        }
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(transform.position, transform.TransformVector(size));
     }
 }

@@ -16,16 +16,31 @@ public class PathDrawer : MonoBehaviour {
     public List<Vector2> points { get; set; } 
     public float controlPointResolution;
 
+    public float pointClearTime;
+
     public float maxLength;
+    [ReadOnly] public float currentLength;
+
+    public bool maxPath { get; private set; }
+
+    [ReadOnly] public bool isClearing;
 
     private void Awake() {
         points = new List<Vector2>();
     }
 
+    private void Update() {
+        currentLength = PathLength();
+    }
+
     public void SetCurrentPoint(Vector2 point) {
+        if(isClearing || maxPath) {
+            return;
+        }
         drawnPathController.GetComponent<PathRenderer>().color = prefabPath.GetComponent<PathRenderer>().color;
 
         if (points.Count == 0) {
+            maxPath = false;
             points.Add(point);
             points.Add(point);
         }
@@ -41,8 +56,8 @@ public class PathDrawer : MonoBehaviour {
             if (dist >= 1.0f / controlPointResolution) {
                 points.Add(point);
 
-                if(PathLength() > maxLength) {
-                    points.RemoveAt(0);
+                if (currentLength > maxLength) {
+                    maxPath = true;
                 }
             }
         }
@@ -122,11 +137,24 @@ public class PathDrawer : MonoBehaviour {
         SpawnPath(path);
         OnClose.Invoke(path);
         ClearPath();
+        currentLength = 0.0f;
     }
 
     public void ClearPath() {
-        points.Clear();
-        drawnPathController.path.Clear();
+        isClearing = true;
+        StartCoroutine(DoClear());
+    }
+
+    public IEnumerator DoClear() {
+        while(points.Count > 0) {
+            points.RemoveAt(points.Count - 1);
+            if (currentLength < maxLength) {
+                maxPath = false;
+            }
+            drawnPathController.path = points;
+            yield return new WaitForSeconds(pointClearTime);
+        }
+        isClearing = false;
     }
 
     private Vector2 CatmullRomInterpolateP1P2(Vector2 P0, Vector2 P1, Vector2 P2, Vector2 P3, float t) {

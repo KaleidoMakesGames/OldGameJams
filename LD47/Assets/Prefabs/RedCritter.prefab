@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 339362935252912663, guid: 20a2205988a1b1942b0d54e3a9be532f,
+        type: 3}
+      propertyPath: isBad
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2408301899647630119, guid: 20a2205988a1b1942b0d54e3a9be532f,
         type: 3}
       propertyPath: baseMovementSpeed
@@ -107,5 +112,6 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.13483444
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 20a2205988a1b1942b0d54e3a9be532f, type: 3}
