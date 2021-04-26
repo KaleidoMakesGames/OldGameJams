@@ -14,6 +14,9 @@ public class ElevatorRungRenderer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(player == null) {
+            return;
+        }
         foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>()) {
             float distance = Vector3.Distance(player.transform.position, mr.transform.position);
             float alpha = curve.Evaluate(distance);

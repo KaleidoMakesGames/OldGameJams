@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class ElevatorController : MonoBehaviour
 {
+    public Animator doors;
+
     public List<string> levels;
     public int currentLevel;
 
@@ -31,6 +34,9 @@ public class ElevatorController : MonoBehaviour
 
     public UnityEvent OnElevatorUse;
     public UnityEvent OnElevatorArrive;
+    public UnityEvent OnScientistsFound;
+
+
 
     public float dropHeight;
     public float deleteAfterProgress;
@@ -48,6 +54,7 @@ public class ElevatorController : MonoBehaviour
 
     private void Start() {
         StartCoroutine(LoadLevel());
+        canUseElevator = true;
     }
     
     // Update is called once per frame
@@ -56,6 +63,7 @@ public class ElevatorController : MonoBehaviour
         if(canUseElevator && isInElevator && Input.GetKeyDown(KeyCode.E)) {
             UseElevator();
         }
+        doors.SetBool("Lowered", !isMoving);
     }
 
     public void SetCanUseElevator() {
@@ -83,22 +91,30 @@ public class ElevatorController : MonoBehaviour
         while (!asyncLoad.isDone) {
             yield return null;
         }
-        var loadedScene = SceneManager.GetSceneByName(name);
         oldLevel = newLevel;
+        var loadedScene = SceneManager.GetSceneByName(name);
         newLevel = new GameObject("Level " + name).transform;
         foreach(var root in loadedScene.GetRootGameObjects()) {
             root.transform.SetParent(newLevel, true);
             // Move everything to the center
             root.transform.position += Vector3.down * dropHeight * currentLevel;
         }
+
+        foreach (NavMeshSurface s in FindObjectsOfType<NavMeshSurface>()) {
+            var async = s.BuildNavMeshAsync();
+            while(!async.isDone) {
+                yield return null;
+            }
+        }
+
         SceneManager.UnloadSceneAsync(loadedScene);
+
 
         if (currentLevel == -1) {
             // Get us back home// Spawn rungs
             float spacing = dropHeight / numRungs;
             float rungStart = -dropHeight * (levels.Count - 1 - 0.5f);
             int nRungs = Mathf.FloorToInt(numRungs * (levels.Count - 0.5f)) + 1;
-            Debug.Log(nRungs);
             for (float i = 0; i < nRungs; i++) {
                 var newRung = Instantiate(rungPrefab.gameObject, newLevel);
                 newRung.transform.position = Vector3.up * (spacing * i + rungStart);

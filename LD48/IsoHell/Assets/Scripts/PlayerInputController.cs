@@ -7,12 +7,16 @@ public class PlayerInputController : MonoBehaviour
     public PlayerMovementController movementController;
     public AttackController attackController;
 
+    private bool frozen;
+
     private void Update() {
         Vector3 delta = Vector3.zero;
-        delta += Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) ? Vector3.forward : Vector3.zero;
-        delta += Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.UpArrow) ? Vector3.back: Vector3.zero;
-        delta += Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) ? Vector3.left: Vector3.zero;
-        delta += Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) ? Vector3.right: Vector3.zero;
+        if (!frozen) {
+            delta += Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) ? Vector3.forward : Vector3.zero;
+            delta += Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.UpArrow) ? Vector3.back : Vector3.zero;
+            delta += Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) ? Vector3.left : Vector3.zero;
+            delta += Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) ? Vector3.right : Vector3.zero;
+        }
         float angle = Vector3.SignedAngle(Vector3.forward, delta, Vector3.up);
         
         Vector3 cameraVector = Camera.main.transform.forward;
@@ -28,9 +32,13 @@ public class PlayerInputController : MonoBehaviour
 
         UpdateFireTarget();
 
-        if(Input.GetMouseButton(0)) {
+        if(Input.GetMouseButton(0) && !frozen) {
             attackController.TryFire();
         }
+    }
+
+    public void SetFrozen(bool frozen) {
+        this.frozen = frozen;
     }
 
     private void UpdateFireTarget() {
