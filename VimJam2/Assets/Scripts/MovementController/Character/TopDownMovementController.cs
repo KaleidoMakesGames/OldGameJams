@@ -28,20 +28,12 @@ public class TopDownMovementController : MonoBehaviour {
     private void FixedUpdate() {
         if(!isDashing) {
             DoMovement();
-            FindFloor();
+            currentFloor = FindFloor();
         }
     }
 
-    private void FindFloor() {
-        var touchingObjects = characterMover.GetTouchingObjects();
-        currentFloor = null;
-        foreach (var touchingObject in touchingObjects) {
-            var floor = touchingObject.GetComponentInParent<FloorProvider>();
-            if (floor) {
-                currentFloor = floor;
-                break;
-            }
-        }
+    public FloorProvider FindFloor() {
+        return characterMover.GetTouchingObjects().Select(x => x.GetComponentInParent<FloorProvider>()).FirstOrDefault(x => x != null);
     }
 
     public void DashToPoint(Vector2 point) {

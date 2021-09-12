@@ -10,8 +10,6 @@ public class InputController : MonoBehaviour {
     public TopDownMovementController movementController;
     public DashAttackController attackController;
 
-    private Vector2 desiredDashPosition;
-
     private void Start() {
         Cursor.lockState = cursorMode;
         Cursor.visible = !hideCursor;
@@ -20,15 +18,8 @@ public class InputController : MonoBehaviour {
     private void Update() {
         movementController.drive = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
-        bool lastCharge = attackController.charge;
         attackController.charge = Input.GetButton("Charge") && !Input.GetButton("Parry");
-        if(attackController.charge) {
-            if (!lastCharge) {
-                desiredDashPosition = movementController.characterMover.characterPosition;
-            }
-            desiredDashPosition += new Vector2(Input.GetAxis("Target X"), Input.GetAxis("Target Y"));
-            attackController.desiredDashPosition = desiredDashPosition;
-        }
+        attackController.desiredDashPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetButtonUp("Charge") && !Input.GetButton("Parry")) {
             attackController.TriggerDash();
