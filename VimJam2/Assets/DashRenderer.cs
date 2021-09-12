@@ -27,6 +27,7 @@ public class DashRenderer : MonoBehaviour
         lineRenderer.enabled = dashController.isCharging;
 
         goalViewer.transform.position = dashController.desiredDashPosition;
+        goalViewer.transform.up = goalViewer.transform.position - dashController.transform.position;
 
         if (dashController.isCharging) {
             lineRenderer.positionCount = 2;

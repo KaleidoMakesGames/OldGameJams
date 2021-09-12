@@ -10,19 +10,33 @@ public class PlayerFloorDamager : MonoBehaviour
     public Animator playerAnimator;
     public float respawnTime;
     public AnimationCurve respawnCurve;
+    public UnityEvent OnFall;
     [ReadOnly] public bool isFalling;
-    [ReadOnly] public Vector2 respawnPosition;
+    [ReadOnly] public Vector2 localRespawnPosition;
+    [ReadOnly] public KMGMovement2D.FloorProvider respawnFloor;
 
     // Update is called once per frame
     void Update() {
-        if (!isFalling) {
-            var touchingPit = movementController.characterMover.GetTouchingObjects().Any(x => x.GetComponentInParent<Pit>() != null);
-            if (!touchingPit) {
-                respawnPosition = movementController.characterMover.characterPosition;
+        if (!isFalling && !movementController.isDashing) {
+            TrackFloorRespawn();
+        }
+    }
+
+    private void TrackFloorRespawn() {
+        var currentFloor = movementController.FindFloor();
+        if (currentFloor) {
+            respawnFloor = currentFloor;
+            var floorCollider = currentFloor.GetComponentInParent<Collider2D>();
+            if(floorCollider.usedByComposite) {
+                floorCollider = floorCollider.GetComponentInParent<CompositeCollider2D>();
             }
-            if(!movementController.isDashing && !movementController.FindFloor()) {
-                DoFall();
+            var worldPoint = movementController.characterMover.characterPosition;
+            if(!floorCollider.OverlapPoint(worldPoint)) {
+                worldPoint = floorCollider.ClosestPoint(worldPoint);
             }
+            localRespawnPosition = currentFloor.transform.InverseTransformPoint(worldPoint);
+        } else {
+            DoFall();
         }
     }
 
@@ -35,21 +49,22 @@ public class PlayerFloorDamager : MonoBehaviour
 
     public void Respawn() {
         StartCoroutine(DoRespawn());
+        OnFall.Invoke();
     }
 
     private IEnumerator DoRespawn() {
         Vector2 startPosition = transform.position;
         float startTime = Time.time;
         while(true) {
+            var goalPosition = respawnFloor.transform.TransformPoint(localRespawnPosition);
             float progress = (Time.time - startTime) / respawnTime;
             if(progress >= 1.0f) {
+                movementController.characterMover.Move(goalPosition, true);
                 break;
             }
-            transform.position = Vector2.Lerp(startPosition, respawnPosition, respawnCurve.Evaluate(progress));
+            transform.position = Vector2.Lerp(startPosition, goalPosition, respawnCurve.Evaluate(progress));
             yield return null;
         }
-        transform.position = respawnPosition;
-        movementController.characterMover.Move(respawnPosition, true);
         isFalling = false;
         movementController.enabled = true;
         movementController.characterMover.enabled = true;

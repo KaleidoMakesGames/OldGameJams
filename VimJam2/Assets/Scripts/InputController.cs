@@ -2,17 +2,12 @@ using System.Collections;
 using UnityEngine;
 
 public class InputController : MonoBehaviour {
-    [Header("Input Settings")]
-    public bool hideCursor;
-    public CursorLockMode cursorMode;
-
     [Header("References")]
     public TopDownMovementController movementController;
     public DashAttackController attackController;
 
     private void Start() {
-        Cursor.lockState = cursorMode;
-        Cursor.visible = !hideCursor;
+        UseGameCursor();
     }
 
     private void Update() {
@@ -24,5 +19,15 @@ public class InputController : MonoBehaviour {
         if (Input.GetButtonUp("Charge") && !Input.GetButton("Parry")) {
             attackController.TriggerDash();
         }
+    }
+
+    public void UseSystemCursor() {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void UseGameCursor() {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
     }
 }

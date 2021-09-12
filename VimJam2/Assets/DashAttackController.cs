@@ -24,6 +24,7 @@ public class DashAttackController : MonoBehaviour
     [ReadOnly] public float chargeRadius;
     [ReadOnly] public float actualRadius;
     [ReadOnly] public Vector2 actualDashPosition;
+    private int direction;
 
     // Update is called once per frame
     void Update() {
@@ -31,16 +32,17 @@ public class DashAttackController : MonoBehaviour
         isCharging = charge && !movementController.isDashing && dashCooldownRemaining == 0.0f;
 
         if (isCharging) {
-            chargeRadius = Mathf.Clamp(chargeRadius + (dashMaxDistance / dashChargeTime) * Time.deltaTime, 0.0f, dashMaxDistance);
-            Vector2 currentPosition = movementController.characterMover.characterPosition;
-            Vector2 delta = Vector2.ClampMagnitude(desiredDashPosition - currentPosition, chargeRadius);
-            var hit = movementController.characterMover.FirstObstacle(delta);
-            if (hit) {
-                delta = delta.normalized * hit.distance;
+            chargeRadius = chargeRadius + direction * (dashMaxDistance / dashChargeTime) * Time.deltaTime;
+            if (chargeRadius < 0 || chargeRadius > dashMaxDistance) {
+                direction = -direction;
             }
+            chargeRadius = Mathf.Clamp(chargeRadius, 0.0f, dashMaxDistance);
+            Vector2 currentPosition = movementController.characterMover.characterPosition;
+            Vector2 delta = (desiredDashPosition - currentPosition).normalized * chargeRadius;
             actualRadius = delta.magnitude;
             actualDashPosition = currentPosition + delta;
         } else {
+            direction = 1;
             chargeRadius = 0.0f;
         }
     }

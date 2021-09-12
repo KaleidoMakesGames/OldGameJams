@@ -38,6 +38,20 @@ namespace KMGMovement2D {
                 return geometry.direction;
             }
         }
+
+        public Bounds bounds {
+            get {
+                switch(geometry.colliderType) {
+                    case ColliderType.Box:
+                        return new Bounds(offset, colliderSize);
+                    case ColliderType.Capsule:
+                        return new Bounds(offset, colliderSize);
+                    case ColliderType.Circle:
+                        return new Bounds(offset, Vector2.one * colliderRadius * 2.0f);
+                }
+                return new Bounds();
+            }
+        }
         
         public IEnumerable<RaycastHit2D> CastAll(Vector2 colliderPosition, float colliderAngle, Vector2 direction,  float distance, ColliderSkin colliderToUse) {
             float skinOffset = GetSkinWidthForDirection(direction, colliderToUse);

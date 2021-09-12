@@ -43,11 +43,13 @@ namespace KMGMovement2D {
                 _rigidbody.MovePosition(_position);
 
                 foreach(var character in characterContents) {
-                    if (character.currentFloor.GetComponentInParent<MovingPlatformController>() == this) {
-                        character.characterMover.DisplaceAndSlide(delta * friction);
-                    }
+                    character.characterMover.DisplaceAndSlide(delta * friction);
                 }
             }
+        }
+
+        private void Awake() {
+            _position = transform.position;
         }
 
         private void Update() {
@@ -64,6 +66,7 @@ namespace KMGMovement2D {
         private void RecordProperties() {
             _startPosition = transform.position;
 
+            _rigidbody.isKinematic = true;
             var attachedColliders = new List<Collider2D>();
             _rigidbody.GetAttachedColliders(attachedColliders);
             Bounds? b = null;

@@ -45,6 +45,9 @@ public class TopDownMovementController : MonoBehaviour {
         Vector2 dashVector = goalPosition - startPosition;
 
         float dashTime = dashVector.magnitude / dashSpeed;
+        if(Mathf.Approximately(dashTime, 0.0f)) {
+            yield break;
+        }
         float startTime = Time.fixedTime;
         isDashing = true;
         while(isDashing) {

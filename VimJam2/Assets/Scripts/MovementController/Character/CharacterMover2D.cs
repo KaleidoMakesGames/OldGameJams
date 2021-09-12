@@ -54,6 +54,12 @@ namespace KMGMovement2D {
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
+        public Bounds GetBounds() {
+            var colliderBounds = characterCollider.bounds;
+            colliderBounds.center += (Vector3)characterPosition;
+            return colliderBounds;
+        }
+
         public void SyncColliders() {
             _circleCollider2D.radius = characterCollider.GetSkinnedColliderRadius(CharacterCollider.ColliderSkin.INNER);
             _boxCollider2D.edgeRadius = characterCollider.GetSkinnedColliderRadius(CharacterCollider.ColliderSkin.INNER);
