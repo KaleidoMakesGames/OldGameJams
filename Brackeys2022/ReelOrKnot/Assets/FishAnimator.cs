@@ -5,7 +5,7 @@ using UnityEngine;
 public class FishAnimator : MonoBehaviour
 {
     public Transform sprite;
-    public FishMovementController movementController;
+    public FishController fishController;
 
     public float turnSpeed;
     public float damping;
@@ -20,7 +20,7 @@ public class FishAnimator : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        position = Vector2.SmoothDamp(position, movementController.rb.position, ref velocity, damping);
+        position = Vector2.SmoothDamp(position, fishController.rb.position, ref velocity, damping);
         sprite.position = position;
 
         float goalY = velocity.x > 0 ? 0.0f : 180.0f;

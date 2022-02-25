@@ -44,3 +44,6 @@ TagManager:
   - name: Fish
     uniqueID: 3685118715
     locked: 0
+  - name: Food
+    uniqueID: 169069951
+    locked: 0
