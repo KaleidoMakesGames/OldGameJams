@@ -1,51 +1,67 @@
     using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DashRenderer : MonoBehaviour
 {
     [Header("Colors")]
-    [ColorUsage(false)] public Color belowMinColor;
-    [ColorUsage(false)] public Color chargingColor;
+    public Color idleColor;
+    public Color burnoutColor;
+    public Color chargingColor;
+    public Color cooldownColor;
 
     [Header("References")]
     public DashAttackController dashController;
-    public SpriteRenderer radiusViewer;
-    public SpriteRenderer actualViewer;
-    public SpriteRenderer goalViewer;
-    public SpriteRenderer maxRadiusViewer;
-    
+    public LineRenderer currentDistanceRenderer;
+    public Transform maxDistanceRenderer;
+    public SpriteRenderer dashDestinationIndicator;
+    public ArrowRenderer arrowRenderer;
 
-    public LineRenderer lineRenderer;
+    public Transform cursor;
+    public Image cooldownDial;
 
     // Update is called once per frame
     void Update()
     {
-        radiusViewer.gameObject.SetActive(dashController.isCharging);
-        actualViewer.gameObject.SetActive(dashController.isCharging);
-        maxRadiusViewer.gameObject.SetActive(dashController.isCharging);
-        lineRenderer.enabled = dashController.isCharging;
+        bool showCharge = dashController.currentState == DashAttackController.State.CHARGING;
+        currentDistanceRenderer.gameObject.SetActive(showCharge);
+        dashDestinationIndicator.gameObject.SetActive(showCharge);
+        maxDistanceRenderer.gameObject.SetActive(showCharge);
+        arrowRenderer.gameObject.SetActive(showCharge);
 
-        goalViewer.transform.position = dashController.desiredDashPosition;
-        goalViewer.transform.up = goalViewer.transform.position - dashController.transform.position;
+        cursor.transform.position = dashController.desiredDashPosition;
+        cursor.transform.up = cursor.transform.position - dashController.transform.position;
+        cooldownDial.transform.eulerAngles = Vector3.zero;
 
-        if (dashController.isCharging) {
-            lineRenderer.positionCount = 2;
-            lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, dashController.actualDashPosition);
-            actualViewer.transform.position = dashController.actualDashPosition;
-            radiusViewer.transform.localScale = Vector2.one * dashController.chargeRadius * 2.0f;
-            maxRadiusViewer.transform.localScale = Vector2.one * dashController.dashMaxDistance * 2.0f;
+        var color = dashController.currentState == DashAttackController.State.IDLE ? idleColor :
+            dashController.currentState == DashAttackController.State.CHARGING ? chargingColor :
+            dashController.currentState == DashAttackController.State.BURNOUT ? burnoutColor :
+            cooldownColor;
+        foreach (var spriteRenderer in cursor.GetComponentsInChildren<SpriteRenderer>()) {
+            spriteRenderer.color = color;
+            //spriteRenderer.enabled = !showCharge;
+        }
 
-            var color = chargingColor;
-            if (dashController.actualRadius < dashController.dashMinDistance) {
-                color = belowMinColor;
-            }
+        if (dashController.currentState == DashAttackController.State.CHARGING) {
+            Vector2 delta = dashController.actualDashPosition - (Vector2)transform.position;
+            arrowRenderer.length = delta.magnitude;
+            arrowRenderer.transform.up = delta;
+            dashDestinationIndicator.transform.position = dashController.actualDashPosition;
 
-            radiusViewer.color = new Color(color.r, color.g, color.b, radiusViewer.color.a);
-            actualViewer.color = new Color(color.r, color.g, color.b, actualViewer.color.a);
-            lineRenderer.startColor = actualViewer.color;
-            lineRenderer.endColor = lineRenderer.startColor;
+            currentDistanceRenderer.SetPosition(1, delta);
+            maxDistanceRenderer.transform.position = transform.position + (Vector3)delta.normalized * dashController.maxDistance;
+            maxDistanceRenderer.transform.up = delta;
+
+            cooldownDial.color = chargingColor;
+            cooldownDial.fillAmount = dashController.chargeTimeRemaining / dashController.chargeTime;
+            cooldownDial.enabled = false;
+        } else if(dashController.currentState == DashAttackController.State.COOLDOWN) {
+            cooldownDial.color = cooldownColor;
+            cooldownDial.fillAmount = dashController.cooldownTimeRemaining / dashController.cooldownTime;
+            cooldownDial.enabled = true;
+        } else {
+            cooldownDial.enabled = false;
         }
     }
 }

@@ -10,54 +10,72 @@ public class DashAttackController : MonoBehaviour
     public Vector2 desiredDashPosition;
 
     [Header("Settings")]
-    public float dashMaxDistance;
-    public float dashMinDistance;
-    public float dashChargeTime;
-    public float dashCooldownTime;
+    public float maxDistance;
+    public float chargeRate;
+    public float chargeTime;
+    public float cooldownTime;
 
     [Header("References")]
     public TopDownMovementController movementController;
 
+    public enum State { IDLE, CHARGING, BURNOUT, COOLDOWN}
     [Header("State")]
-    [ReadOnly] public bool isCharging;
-    [ReadOnly] public float dashCooldownRemaining;
-    [ReadOnly] public float chargeRadius;
-    [ReadOnly] public float actualRadius;
+    [ReadOnly] public State currentState;
+    [ReadOnly] public float cooldownTimeRemaining;
+    [ReadOnly] public float chargeTimeRemaining;
+    [ReadOnly] public float currentChargeDistance;
     [ReadOnly] public Vector2 actualDashPosition;
-    private int direction;
 
     // Update is called once per frame
     void Update() {
-        dashCooldownRemaining = Mathf.Clamp(dashCooldownRemaining - Time.deltaTime, 0.0f, Mathf.Infinity);
-        isCharging = charge && !movementController.isDashing && dashCooldownRemaining == 0.0f;
+        cooldownTimeRemaining = Mathf.Clamp(cooldownTimeRemaining - Time.deltaTime, 0.0f, Mathf.Infinity);
+        chargeTimeRemaining = Mathf.Clamp(chargeTimeRemaining - Time.deltaTime, 0.0f, Mathf.Infinity);
+        switch(currentState) {
+            case State.IDLE:
+                if(charge) {
+                    currentState = State.CHARGING;
+                    chargeTimeRemaining = chargeTime;
+                }
+                break;
+            case State.CHARGING:
+                currentChargeDistance = Mathf.Clamp(currentChargeDistance + chargeRate * Time.deltaTime, 0, maxDistance);
+                Vector2 currentPosition = movementController.characterMover.characterPosition;
+                Vector2 delta = (desiredDashPosition - currentPosition).normalized * currentChargeDistance;
+                var hit = movementController.characterMover.FirstObstacle(delta, delta.magnitude);
+                if (hit) {
+                    delta = delta.normalized * hit.distance;
+                }
+                actualDashPosition = currentPosition + delta;
 
-        if (isCharging) {
-            chargeRadius = chargeRadius + direction * (dashMaxDistance / dashChargeTime) * Time.deltaTime;
-            if (chargeRadius < 0 || chargeRadius > dashMaxDistance) {
-                direction = -direction;
-            }
-            chargeRadius = Mathf.Clamp(chargeRadius, 0.0f, dashMaxDistance);
-            Vector2 currentPosition = movementController.characterMover.characterPosition;
-            Vector2 delta = (desiredDashPosition - currentPosition).normalized * chargeRadius;
-            actualRadius = delta.magnitude;
-            actualDashPosition = currentPosition + delta;
-        } else {
-            direction = 1;
-            chargeRadius = 0.0f;
+                if (chargeTimeRemaining == 0) {
+                    currentState = State.BURNOUT;
+                }
+                if(!charge) {
+                    currentState = State.IDLE;
+                }
+                break;
+            case State.BURNOUT:
+                if(!charge) {
+                    currentState = State.IDLE;
+                }
+                break;
+            case State.COOLDOWN:
+                if(cooldownTimeRemaining == 0) {
+                    currentState = State.IDLE;
+                }
+                break;
+        }
+
+        if(currentState != State.CHARGING) {
+            currentChargeDistance = 0;
         }
     }
 
     public void TriggerDash() {
-        if (actualRadius >= dashMinDistance) {
+        if (currentState == State.CHARGING) {
             movementController.DashToPoint(actualDashPosition);
-        }
-    }
-
-    private void OnDrawGizmosSelected() {
-        if(isCharging) {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(movementController.characterMover.characterPosition, chargeRadius);
-            Gizmos.DrawLine(movementController.characterMover.characterPosition, actualDashPosition);
+            currentState = State.COOLDOWN;
+            cooldownTimeRemaining = cooldownTime;
         }
     }
 }

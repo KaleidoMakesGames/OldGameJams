@@ -57,10 +57,7 @@ public class TopDownMovementController : MonoBehaviour {
                 break;
             }
             Vector2 localGoal = Vector2.LerpUnclamped(startPosition, goalPosition, dashCurve.Evaluate(progress));
-            var hit = characterMover.TryMove(localGoal, true);
-            if(hit) {
-                break;
-            }
+            characterMover.TryMove(localGoal, true);
             yield return new WaitForFixedUpdate();
         }
         isDashing = false;

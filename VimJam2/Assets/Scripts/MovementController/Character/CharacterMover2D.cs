@@ -129,11 +129,16 @@ namespace KMGMovement2D {
 
         public enum SlideMode { Projected, Proportional }
         public RaycastHit2D DisplaceAndSlide(Vector2 displacement) {
+            if(displacement.magnitude == 0.0f) {
+                return new RaycastHit2D();
+            }
+
             var lastObstacle = new RaycastHit2D();
             int step = 0;
             Vector2 currentDisplacement = displacement;
             for(; step < 8; step++) {
                 if (displacement.magnitude == 0) {
+                    Debug.Log("Finished");
                     break;
                 }
                 var obstacle = Displace(currentDisplacement);
@@ -168,17 +173,25 @@ namespace KMGMovement2D {
         }
 
         public RaycastHit2D Displace(Vector2 displacement) {
-            var firstHit = FirstObstacle(displacement);
+            return Displace(displacement.normalized, displacement.magnitude);
+        }
+
+        public RaycastHit2D Displace(Vector2 direction, float distance, bool ensureSkin = true) {
+            var firstHit = FirstObstacle(direction, distance);
             if (firstHit) {
-                Move(characterPosition + displacement.normalized * firstHit.distance, false);
+                Move(characterPosition + direction.normalized * firstHit.distance, false);
             } else {
-                Move(characterPosition + displacement, false);
+                Move(characterPosition + direction.normalized * distance, false);
+            }
+            if(ensureSkin) {
+                Displace(Vector2.Perpendicular(direction), 0.0f, false);
+                Displace(-Vector2.Perpendicular(direction), 0.0f, false);
             }
             return new RaycastHit2D();
         }
 
-        public RaycastHit2D FirstObstacle(Vector2 displacement) {
-            var forwardCast = characterCollider.CastAll(characterPosition, characterAngle, displacement.normalized, displacement.magnitude, CharacterCollider.ColliderSkin.INNER);
+        public RaycastHit2D FirstObstacle(Vector2 direction, float distance) {
+            var forwardCast = characterCollider.CastAll(characterPosition, characterAngle, direction.normalized, distance, CharacterCollider.ColliderSkin.INNER);
             foreach (var hit in forwardCast) {
                 if (IsObstacle(hit.collider)) {
                     return hit;
