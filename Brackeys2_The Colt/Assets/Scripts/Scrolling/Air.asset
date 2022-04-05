@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38fc1ad806a2d8d45b423327c82f126d, type: 3}
+  m_Name: Air
+  m_EditorClassIdentifier: 
+  initialBlankProbability: 1
+  blankProbabilityChangePerSpawn: -0.005
+  minBlankProbability: 0.8
+  maxBlankProbability: 1
+  initialSpawnDistance: 5
+  spawnDistanceChangePerSpawn: -0.1
+  minSpawnDistance: 2
+  maxSpawnDistance: Infinity
+  obstacles:
+  - probability: 1
+    obstacleToSpawn: {fileID: 8505992692517655949, guid: 2867fdc76026b3e4d9f1902f80e9099f,
+      type: 3}

@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7651bd78d1a994c8b8fec19ac23d5e, type: 3}
+  m_Name: School Decision
+  m_EditorClassIdentifier: 
+  eventName: Message from Jamie
+  planned: 0
+  eventDescription: Do you think we can afford private school for Bennett?
+  type: {fileID: 11400000, guid: 9e07dcfca6cbb8846a84a89faaeda21d, type: 2}
+  doFirstOption: 0
+  options:
+  - optionName: I think we can.
+    payment: {fileID: 0}
+    eventTypesToRemoveFromCalendar:
+    - {fileID: 11400000, guid: f464b08eb8f3c4c43b50ef75bf172ba9, type: 2}
+    eventTypesToRemoveFromPool: []
+    eventsToAddToCalendar:
+    - eventToAdd: {fileID: 11400000, guid: 79f1cba06530f49439d8dd5dca4d59c5, type: 2}
+      dateInfo:
+        yearNumber: 0
+        relativeYear: 1
+        monthNumber: 9
+        relativeMonth: 0
+        dayNumber: 1
+        relativeDay: 0
+    eventsToAddToPool: []
+  - optionName: Not now.
+    payment: {fileID: 0}
+    eventTypesToRemoveFromCalendar:
+    - {fileID: 11400000, guid: f464b08eb8f3c4c43b50ef75bf172ba9, type: 2}
+    eventTypesToRemoveFromPool: []
+    eventsToAddToCalendar: []
+    eventsToAddToPool: []

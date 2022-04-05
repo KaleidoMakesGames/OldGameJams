@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f711c04519b0347a149d7f1f19de31, type: 3}
+  m_Name: Blue Toy
+  m_EditorClassIdentifier: 
+  color: {r: 0.07058824, g: 0.53333336, b: 1, a: 1}
+  sprite: {fileID: 21300000, guid: 1027db73fc62f5f489fcaa1ecb9bfed1, type: 3}
+  moneyValue: 1000
+  approvalValue: 0.5
+  penaltyMultiplier: 2

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d44ed143a4a48646bdabeffa7bf1394, type: 3}
+  m_Name: Fireball Launcher
+  m_EditorClassIdentifier: 
+  cooldown: 1
+  damage: 5
+  lifetime: 3
+  launchSpeed: 8
+  gravity: 9
+  hitRadius: 0.15
+  autoTarget: 1
+  upAngleBounds: 0.73
+  autoTargetDeltaTime: 0.05
+  projectileToFirePrefab: {fileID: 114283371242858060, guid: d6442fa20df9cc44c93e19bcaf6b4eef,
+    type: 2}

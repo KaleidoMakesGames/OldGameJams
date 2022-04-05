@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7651bd78d1a994c8b8fec19ac23d5e, type: 3}
+  m_Name: Birth
+  m_EditorClassIdentifier: 
+  eventName: Childbirth
+  planned: 0
+  eventDescription: Bennett was born!
+  type: {fileID: 11400000, guid: 4655a3f5ce6493e42bb26f673992706b, type: 2}
+  doFirstOption: 1
+  options:
+  - optionName: 
+    payment: {fileID: 11400000, guid: 4863a35fcb9e4d244ae7b333f1e38ae0, type: 2}
+    eventTypesToRemoveFromCalendar: []
+    eventTypesToRemoveFromPool: []
+    eventsToAddToCalendar:
+    - eventToAdd: {fileID: 11400000, guid: f464b08eb8f3c4c43b50ef75bf172ba9, type: 2}
+      dateInfo:
+        yearNumber: 2
+        relativeYear: 1
+        monthNumber: 2
+        relativeMonth: 1
+        dayNumber: 1
+        relativeDay: 0
+    - eventToAdd: {fileID: 11400000, guid: c2f28dbbe5bdaca46af47337f9a30fce, type: 2}
+      dateInfo:
+        yearNumber: 1
+        relativeYear: 1
+        monthNumber: 0
+        relativeMonth: 1
+        dayNumber: 0
+        relativeDay: 1
+    - eventToAdd: {fileID: 11400000, guid: b316ca842a610614ca2d795cb22d8387, type: 2}
+      dateInfo:
+        yearNumber: 5
+        relativeYear: 1
+        monthNumber: 1
+        relativeMonth: 1
+        dayNumber: 1
+        relativeDay: 1
+    eventsToAddToPool:
+    - eventToAdd: {fileID: 11400000, guid: 1e6f229d39cf649488e4d24503942be5, type: 2}
+      expectedTimesPerYear: 3
+      startDate:
+        yearNumber: 0
+        relativeYear: 1
+        monthNumber: 0
+        relativeMonth: 1
+        dayNumber: 0
+        relativeDay: 1

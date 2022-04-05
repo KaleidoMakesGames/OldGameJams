@@ -1,0 +1,5 @@
+Wish counter UI (not on mouse)
+	Tap to use wish box
+Fix wish indicator icon
+Particles on wish grab
+Particles on wish use

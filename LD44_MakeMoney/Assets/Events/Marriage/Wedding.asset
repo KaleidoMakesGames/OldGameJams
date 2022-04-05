@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7651bd78d1a994c8b8fec19ac23d5e, type: 3}
+  m_Name: Wedding
+  m_EditorClassIdentifier: 
+  eventName: Wedding
+  planned: 1
+  eventDescription: You and Jamie got married.
+  type: {fileID: 11400000, guid: 4655a3f5ce6493e42bb26f673992706b, type: 2}
+  doFirstOption: 1
+  options:
+  - optionName: 
+    payment: {fileID: 11400000, guid: b6c527ffe61b918499ea680de72fa83e, type: 2}
+    eventTypesToRemoveFromCalendar: []
+    eventTypesToRemoveFromPool: []
+    eventsToAddToCalendar:
+    - eventToAdd: {fileID: 11400000, guid: 81271ddf5b22c4a41be3171c65cab2e6, type: 2}
+      dateInfo:
+        yearNumber: 0
+        relativeYear: 1
+        monthNumber: 3
+        relativeMonth: 1
+        dayNumber: 1
+        relativeDay: 1
+    eventsToAddToPool:
+    - eventToAdd: {fileID: 11400000, guid: 1e7d831552e73f64f9670cdb00ccf9d8, type: 2}
+      expectedTimesPerYear: 2
+      startDate:
+        yearNumber: 0
+        relativeYear: 1
+        monthNumber: 0
+        relativeMonth: 1
+        dayNumber: 0
+        relativeDay: 1

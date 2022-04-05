@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290610481513220469fba43da25eae24, type: 3}
+  m_Name: New Dialog Set
+  m_EditorClassIdentifier: 
+  lines:
+  - text: "A young man cleans tables in an empty saloon to prepare for another evening
+      . . .\t"
+  - text: He overhears a woman singing the most beautiful melody to ever reach his
+      ears and stops his work, mesmerized.
+  - text: Peering out the window, he sees her -- a young woman with a red neckerchief
+      and cowboy hat walking her horse out of the stables next door.
+  - text: She mounts her horse and gallops off into the desert.
+  - text: Her neckerchief blows loose without her notice and lands on the dirt in
+      front of the saloon.
+  - text: The young man picks up the neckerchief and rushes to the town stables.
+  - text: '"Stableman! Stableman! A woman with the most beautiful voice just left
+      town on a horse. Do you know who she is?"'
+  - text: '"Hmm..."'
+  - text: '"..."'
+  - text: '"Oh yes! The young lass from Old Rock! It''s quite the trek away. But that
+      must be her neckerchief!"'
+  - text: '"Why, aren''t you the gallant man to return it! Surely you must be in need
+      of a horse."'
+  - text: '"Hmm..."'
+  - text: '"Low on cash?"'
+  - text: '"Well, I suppose I''ve got a colt that I could lend you. He''s not the
+      fastest buck around, but he''s surely got spirit."'
+  - text: '"Just be careful out there. The way to Old Rock is long and mighty treacherous..."'
+  - text: '"Here, hop on the saddle..."'
+  - text: The young man approached the colt...

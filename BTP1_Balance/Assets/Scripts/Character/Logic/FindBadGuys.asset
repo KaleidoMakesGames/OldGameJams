@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509e67a50ba256b4ab91c168c2a900a8, type: 3}
+  m_Name: FindBadGuys
+  m_EditorClassIdentifier: 
+  teamToSeek: {fileID: 11400000, guid: 4c8c7405e421b6042861ce1e9dccfc6d, type: 2}

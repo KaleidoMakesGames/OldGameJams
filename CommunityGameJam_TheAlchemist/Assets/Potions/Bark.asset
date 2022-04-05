@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed86decdcc51044bb91144c3db36e82, type: 3}
+  m_Name: Bark
+  m_EditorClassIdentifier: 
+  potionColor: {r: 0.3773585, g: 0.25487542, b: 0.05873977, a: 1}
+  ingredients:
+  - {fileID: 11400000, guid: c2bbf862b2c4eb644ad7768b98376219, type: 2}
+  - {fileID: 11400000, guid: cbc1d1e955ca9ad4dad5dddb57863639, type: 2}

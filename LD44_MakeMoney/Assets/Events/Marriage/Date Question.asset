@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7651bd78d1a994c8b8fec19ac23d5e, type: 3}
+  m_Name: Date Question
+  m_EditorClassIdentifier: 
+  eventName: Message from +(312)-555-0101
+  eventDescription: Hey, it's Jamie! I met you at that wedding a few months ago. Would
+    you want to grab coffee sometime?
+  type: {fileID: 11400000, guid: 9e07dcfca6cbb8846a84a89faaeda21d, type: 2}
+  doFirstOption: 0
+  options:
+  - optionName: Sure!
+    payment: {fileID: 0}
+    eventTypesToRemoveFromCalendar: []
+    eventTypesToRemoveFromPool: []
+    eventsToAddToCalendar:
+    - eventToAdd: {fileID: 11400000, guid: 845f17f770eaf2144958656c0d8e8770, type: 2}
+      dateInfo:
+        yearNumber: 0
+        relativeYear: 1
+        monthNumber: 0
+        relativeMonth: 1
+        dayNumber: 0
+        relativeDay: 1
+    - eventToAdd: {fileID: 11400000, guid: db578c47e1a701f41b89828ff7027436, type: 2}
+      dateInfo:
+        yearNumber: 2
+        relativeYear: 1
+        monthNumber: 1
+        relativeMonth: 1
+        dayNumber: 25
+        relativeDay: 1
+    eventsToAddToPool: []
+  - optionName: No thanks.
+    payment: {fileID: 0}
+    eventTypesToRemoveFromCalendar: []
+    eventTypesToRemoveFromPool: []
+    eventsToAddToCalendar: []
+    eventsToAddToPool: []

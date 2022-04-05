@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed86decdcc51044bb91144c3db36e82, type: 3}
+  m_Name: Lust
+  m_EditorClassIdentifier: 
+  potionColor: {r: 1, g: 0.27095452, b: 0.23921567, a: 1}
+  ingredients:
+  - {fileID: 11400000, guid: 26453754688436643952b73fa4809ec0, type: 2}
+  - {fileID: 11400000, guid: f319046598ba8b54a98c9a04fa9d2b5d, type: 2}

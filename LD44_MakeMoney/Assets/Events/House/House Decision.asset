@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7651bd78d1a994c8b8fec19ac23d5e, type: 3}
+  m_Name: House Decision
+  m_EditorClassIdentifier: 
+  eventName: Message from Jamie
+  planned: 0
+  eventDescription: I think we should talk about moving in together. Do you think
+    we're ready for it?
+  type: {fileID: 11400000, guid: 9e07dcfca6cbb8846a84a89faaeda21d, type: 2}
+  doFirstOption: 0
+  options:
+  - optionName: I'm ready.
+    payment: {fileID: 0}
+    eventTypesToRemoveFromCalendar: []
+    eventTypesToRemoveFromPool: []
+    eventsToAddToCalendar:
+    - eventToAdd: {fileID: 11400000, guid: 48e47e3de5e42914e9e566efa3dd749d, type: 2}
+      dateInfo:
+        yearNumber: 0
+        relativeYear: 1
+        monthNumber: 1
+        relativeMonth: 0
+        dayNumber: 1
+        relativeDay: 0
+    - eventToAdd: {fileID: 11400000, guid: ad15fb837bce33e49a27a1d260d991ad, type: 2}
+      dateInfo:
+        yearNumber: 1
+        relativeYear: 1
+        monthNumber: 1
+        relativeMonth: 1
+        dayNumber: 4
+        relativeDay: 1
+    eventsToAddToPool: []
+  - optionName: No. This isn't working.
+    payment: {fileID: 0}
+    eventTypesToRemoveFromCalendar: []
+    eventTypesToRemoveFromPool: []
+    eventsToAddToCalendar: []
+    eventsToAddToPool: []

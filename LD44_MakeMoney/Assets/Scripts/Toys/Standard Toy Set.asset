@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb37b4422972b55419ea7004b11434d6, type: 3}
+  m_Name: Standard Toy Set
+  m_EditorClassIdentifier: 
+  set:
+  - toyType: {fileID: 11400000, guid: eef2152337139714295cbaab1ee03469, type: 2}
+    probabilityWeight: 4
+  - toyType: {fileID: 11400000, guid: c32586f6f103da6469579336e29ae8e5, type: 2}
+    probabilityWeight: 4
+  - toyType: {fileID: 11400000, guid: d65c6c5a69c6f7645bd041ad6a94cf31, type: 2}
+    probabilityWeight: 2
+  - toyType: {fileID: 0}
+    probabilityWeight: 3

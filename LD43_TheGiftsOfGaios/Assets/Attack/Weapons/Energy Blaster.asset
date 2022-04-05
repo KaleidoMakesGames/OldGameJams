@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d44ed143a4a48646bdabeffa7bf1394, type: 3}
+  m_Name: Energy Blaster
+  m_EditorClassIdentifier: 
+  cooldown: 0.2
+  damage: 10
+  lifetime: 2
+  launchSpeed: 10
+  gravity: 0
+  hitRadius: 0
+  autoTarget: 0
+  upAngleBounds: 360
+  autoTargetDeltaTime: 0.1
+  projectileToFirePrefab: {fileID: 114283371242858060, guid: b05e2a32397ef25479ad79163a77506f,
+    type: 2}

@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Floor
+    uniqueID: 671851185
+    locked: 0
+  - name: Back Wall
+    uniqueID: 2103769115
+    locked: 0
+  - name: Furniture
+    uniqueID: 1652163807
+    locked: 0
+  - name: Front Wall
+    uniqueID: 44353449
+    locked: 0
+  - name: Objects
+    uniqueID: 1407837187
+    locked: 0
+  - name: Cover
+    uniqueID: 988277885
+    locked: 0

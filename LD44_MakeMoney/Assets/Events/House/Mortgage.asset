@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7651bd78d1a994c8b8fec19ac23d5e, type: 3}
+  m_Name: Mortgage
+  m_EditorClassIdentifier: 
+  eventName: Mortgage
+  planned: 1
+  eventDescription: Mortgage is due quarterly
+  type: {fileID: 11400000, guid: 4655a3f5ce6493e42bb26f673992706b, type: 2}
+  doFirstOption: 1
+  options:
+  - optionName: Pay
+    payment: {fileID: 11400000, guid: db97bdf6eb1222248b1acc9f5e780070, type: 2}
+    eventTypesToRemoveFromCalendar: []
+    eventTypesToRemoveFromPool: []
+    eventsToAddToCalendar:
+    - eventToAdd: {fileID: 11400000}
+      dateInfo:
+        yearNumber: 0
+        relativeYear: 1
+        monthNumber: 4
+        relativeMonth: 1
+        dayNumber: 1
+        relativeDay: 0
+    eventsToAddToPool: []

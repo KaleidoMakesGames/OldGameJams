@@ -1,0 +1,42 @@
+DRONE DEPOT
+
+To-do:
+
+MECHANICS:
+	- Goal
+		Pick up packages, deliver to sites
+	- Conflicts
+		Resource: health
+			Gain: repair shop
+			Lose: damage from obstacles, enemies
+		Battery life
+			Gain: charging ports
+			Lose: movement/time
+		Environment
+			Obstacles
+			Wind
+		Enemies
+			Birds (melee)
+			Rival drones (ranged)
+	- Content
+		D-Dollars from deliveries
+		Spend dollars at the Drone Depot to repair, recharge, upgrade
+			Repellant Canister I, II, III
+			EMP Cannon I, II, III
+			Faraday Shield I, II, III
+			Battery Pack I, II, III
+			Solar Array I, II, III
+			Booster Blades I, II, III
+			Package Pulley I, II, III
+			Radar Kit I, II, III
+		Package manipulation
+			Cable pick-up DONE
+			Drop DONE
+			Drop zones DONE
+			City map
+		Additional abilities
+			Repellant spray (LMB)
+			Shoot cannon (RMB)
+			Boost (LShift)
+
+POLISH

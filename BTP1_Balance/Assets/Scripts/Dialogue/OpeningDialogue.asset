@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78ee3d85bbc8254d891f475b541d301, type: 3}
+  m_Name: OpeningDialogue
+  m_EditorClassIdentifier: 
+  dialogue:
+  - text: Whew. Glad that you finally made it.
+    secondsToDisplay: 3
+  - text: I've been working on this new video game all week -- I was just about to
+      call it quits.
+    secondsToDisplay: 4
+  - text: To be frank, the playtesters hate it.
+    secondsToDisplay: 3
+  - text: They say it's too easy, it's too hard, it's boring, it's frustrating...
+    secondsToDisplay: 5
+  - text: No matter what, I just can't make them happy.
+    secondsToDisplay: 4
+  - text: I need your help making it fun.
+    secondsToDisplay: 2
+  - text: Let me show you what I mean.
+    secondsToDisplay: 2

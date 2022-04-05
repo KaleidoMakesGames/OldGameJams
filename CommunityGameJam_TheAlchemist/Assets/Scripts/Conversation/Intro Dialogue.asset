@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1998702271f98b49879e9c09546122b, type: 3}
+  m_Name: Intro Dialogue
+  m_EditorClassIdentifier: 
+  dialogue:
+  - Are you the alchemist of this shop?
+  - '.......'
+  - Great. I couldn't find a single open shop in Gallia except for yours.
+  - My name is Leogan.
+  - '.......'
+  - Well it's good that you've never seen me around. I'd be an awful Kingspy if you
+    had.
+  - Listen, there isn't much time. Have you heard of Scape?
+  - '.......'
+  - Exactly ... the legendary alchemist ... exiled years ago ...
+  - Well. In a raid of his library, we found a plan to taint the Gallian aqueducts
+    with some exotic poison.
+  - My agents have recovered Scape's copy of the <i>Codex Alchemiae</i>.
+  - The recipe for the antidote should be in its pages.
+  - I need your help to concoct it. Here is the Codex.
+  - Please, there isn't much time!
