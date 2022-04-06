@@ -236,7 +236,8 @@ public class SoldierController : MonoBehaviour, IBoatLoadable
     }
 
     private void UpdateTarget() {
-        var zombiesInRange = FindObjectsOfType<ZombieController>().OrderBy(x => Vector2.Distance(x.transform.position, transform.position) <= attackRange);
+        var zombiesInRange = FindObjectsOfType<ZombieController>().Where(x => Vector2.Distance(x.transform.position, transform.position) < attackRange).
+            OrderBy(x => Vector2.Distance(x.transform.position, transform.position));
 
         targetZombie = null;
         foreach(var zombie in zombiesInRange) {

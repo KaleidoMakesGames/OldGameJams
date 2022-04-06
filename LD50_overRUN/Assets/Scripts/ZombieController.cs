@@ -142,7 +142,7 @@ public class ZombieController : MonoBehaviour
     }
 
     Vector2 HuntSoldiersVector() {
-        var soldiersInRange = SoldierController.soldiers.Where(x => Vector2.Distance(x.transform.position, transform.position) <= huntSoldiersRange && x.currentBuilding == null);
+        var soldiersInRange = SoldierController.soldiers.Where(x => Vector2.Distance(x.transform.position, transform.position) <= huntSoldiersRange && x.transform.position.x <= 2 && x.currentBuilding == null);
         targetedSoldier = null;
         SoldierController closestInLineOfSight = null;
         SoldierController closestOverall = null;
